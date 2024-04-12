@@ -1,24 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {useState} from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import HomePage from './pages/homePage';
+import FieldsPage from './pages/fieldsPage';
+import Navbar from './components/navbar';
+import AuthComponent from './auth/AuthComponent';
+import Modal from './auth/AuthModal'
 
 function App() {
+  const [modalOpen, setModalOpen] = useState(false);
+
+    function showModal() {
+        setModalOpen(true);
+    }
+
+    function closeModal() {
+        setModalOpen(false);
+    }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div >
+        <Navbar showModal={showModal}/>
+        <Modal isOpen={modalOpen} onClose={closeModal} />
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/home" element={<HomePage />} />
+          <Route path="/field" element={<FieldsPage />} />
+          <Route path="/login" element={<AuthComponent />} />
+        </Routes>
+        
+      </div>
+    </Router>
   );
 }
 
